@@ -13,10 +13,9 @@ class usercontroller extends Controller
 
         //tambah data dengan Eluqoment Model
         $data = [
-            'level_id' => 5,
-            'username' => 'customer1',
-            'nama' => 'Pelanggan',
-            'password' => Hash::make('12345')
+            'level_id' => 2,
+            'username' => 'Manager_tiga',
+            'nama' => 'Manager 3',
         ];
         usermodel::insert($data);
 
