@@ -29,5 +29,10 @@ Route::get('/kategoricreate', [kategoricontroller::class, 'index']); // untuk qu
 Route::get('/kategoriupdate', [kategoricontroller::class, 'update']);
 Route::get('/kategoridelete', [kategoricontroller::class, 'delete']);
 Route::get('/kategoriview', [kategoricontroller::class, 'view']);
-Route::get('/userview',[usercontroller::class, 'index']);
+Route::get('/userindex',[usercontroller::class, 'index']);
 Route::get('/userupdate',[usercontroller::class, 'update']);
+Route::get('/userfind',[usercontroller::class, 'find']);
+Route::get('/userviewall',[usercontroller::class, 'viewall']);
+Route::get('/userwhere',[usercontroller::class, 'where']);
+Route::get('/userfirst',[usercontroller::class, 'firstwhere']);
+Route::get('/userfindor',[usercontroller::class, 'findor']);
