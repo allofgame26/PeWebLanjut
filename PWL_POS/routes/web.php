@@ -36,3 +36,5 @@ Route::get('/userviewall',[usercontroller::class, 'viewall']);
 Route::get('/userwhere',[usercontroller::class, 'where']);
 Route::get('/userfirst',[usercontroller::class, 'firstwhere']);
 Route::get('/userfindor',[usercontroller::class, 'findor']);
+Route::get('/userfindorfail',[usercontroller::class, 'findorfail']);
+Route::get('/userwherefindorfail',[usercontroller::class, 'wherefindorfail']);

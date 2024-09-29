@@ -56,5 +56,13 @@ class usercontroller extends Controller
         });
         return view('user',['data' => $user]);
     }
-
+    public function findorfail(){
+        $user = usermodel::findOrFail(1);
+        return view('user',['data' => $user]);
+    }
+    public function wherefindorfail(){
+        $user = usermodel::where('username','manager')->firstOrFail();
+        return view('user',['data' => $user]);
+    }
+    
 }
