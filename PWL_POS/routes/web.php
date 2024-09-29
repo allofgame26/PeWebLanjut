@@ -38,3 +38,4 @@ Route::get('/userfirst',[usercontroller::class, 'firstwhere']);
 Route::get('/userfindor',[usercontroller::class, 'findor']);
 Route::get('/userfindorfail',[usercontroller::class, 'findorfail']);
 Route::get('/userwherefindorfail',[usercontroller::class, 'wherefindorfail']);
+Route::get('/userwherecount',[usercontroller::class, 'wherecount']);

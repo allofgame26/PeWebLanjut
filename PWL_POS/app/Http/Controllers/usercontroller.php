@@ -64,5 +64,10 @@ class usercontroller extends Controller
         $user = usermodel::where('username','manager')->firstOrFail();
         return view('user',['data' => $user]);
     }
+    public function wherecount(){
+        $user = usermodel::where('level_id','2')->count();
+        // dd($user); // Dump or Die. Digunkan untuk menampilkan isi variabel dan menghentikan eksekusi script secara langsung.
+        return view('user',['data' => $user]);
+    }
     
 }
