@@ -9,12 +9,12 @@
 <body>
     <h1>Data User</h1>
     <table border="1" cellpadding="2" cellspadding="0">
-        {{-- <tr>
+        <tr>
             <th>ID</th>
             <th>Username</th>
             <th>Nama</th>
             <th>ID level Pengguna</th>
-        </tr> --}}
+        </tr>
         {{-- @foreach ($data as $d)
             <tr>
                 <td>{{ $d->user_id }}</td>
@@ -23,18 +23,20 @@
                 <td>{{ $d->level_id }}</td>
             </tr>
         @endforeach --}}
-        {{-- <tr>
+        <tr>
             <td>{{ $data->user_id }}</td>
             <td>{{ $data->username }}</td>
             <td>{{ $data->nama }}</td>
             <td>{{ $data->level_id }}</td>
-        </tr> --}}
-        <tr>
+        </tr>
+
+        {{-- untuk menentukan jumlah data  --}}
+        {{-- <tr>
             <td>Jumlah Pengguna</td>
         </tr>
         <tr>
             <td>{{$data}}</td>
-        </tr>
+        </tr> --}}
     </table>
 </body>
 </html>

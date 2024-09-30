@@ -69,5 +69,28 @@ class usercontroller extends Controller
         // dd($user); // Dump or Die. Digunkan untuk menampilkan isi variabel dan menghentikan eksekusi script secara langsung.
         return view('user',['data' => $user]);
     }
-    
+    public function firstorcreate(){
+        $user = usermodel::firstOrCreate(
+            [
+                'username' => 'manager22',
+                'nama' => 'Manager Dua Dua',
+                'password' => Hash::make('12345'),
+                'level_id' => 2,
+            ],
+        );
+        return view('user',['data' => $user]);
+    }
+    public function firstornew(){
+        $user = usermodel::firstOrNew(
+            ['username' => 'manager33'],
+            [
+                'nama' => 'Manager Tiga Tiga',
+                'password' => Hash::make('12345'),
+                'level_id' => 2,
+            ]
+        );
+        $user ->save();
+        
+        return view('user',['data' => $user]);
+    }
 }

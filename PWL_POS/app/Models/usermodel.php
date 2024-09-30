@@ -13,6 +13,6 @@ class usermodel extends Model
     protected $primaryKey = 'user_id'; //mendefinisikan primary key dari tabel yang digunakan
 
     
-    protected $fillable = ['level_id','username'.'nama','password']; //full attribute
+    protected $fillable = ['level_id','username','nama','password']; //full attribute
     // protected $fillable = ['level_id','username','nama']; // terjadi error karena terdapat kolom yang tidak benar /  salah / belum terinisiasi kan
 }
