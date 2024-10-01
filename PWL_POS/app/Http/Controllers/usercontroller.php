@@ -93,4 +93,49 @@ class usercontroller extends Controller
         
         return view('user',['data' => $user]);
     }
+    public function dirtyclean(){
+        $user = usermodel::create(
+            [   'username' => 'manager55',
+                'nama' => 'Manager55',
+                'password' => Hash::make('12345'),
+                'level_id' => 2,
+            ]
+        );
+        $user ->username = 'manager56';
+
+        $user->isDirty(); // pengecekan apakah ada atribut model yang telah diubah sejak model diambil
+        $user->isDirty('username'); // True telah diuubah
+        $user->isDirty('nama'); // false karena tidak dirubah
+        $user->isDirty(['nama','username']); // True telah dirubah karena username telah dirubah
+
+        $user->isClean(); // pengecekan apakah ada suatu attribut tetap tidak berubah sejak model diambil
+        $user->isClean('username'); // hasil false, karena sudah terganti oleh data baru
+        $user->isClean('nama'); // hasil true, dikarenakan attribut nama tidak ada perubahan
+        $user->isClean(['nama','username']); // False, Karena ada data yang telah di ubah
+
+        $user ->save();
+
+        $user->isDirty(); //false
+        $user->isClean(); //true
+        dd($user->isDirty());
+    }
+    public function waschange(){
+        $user = usermodel::create(
+            [   'username' => 'manager11',
+                'nama' => 'Manager11',
+                'password' => Hash::make('12345'),
+                'level_id' => 2,
+            ]
+        );
+        $user ->username = 'manager12';
+
+        $user ->save();
+
+        $user->wasChanged(); // pengecekan apakah ada atribut model yang telah diubah sejak model diambil
+        $user->wasChanged('username'); // True telah diuubah
+        $user->wasChanged('nama'); // false karena tidak dirubah
+        $user->wasChanged(['nama','username']); // True telah dirubah karena username telah dirubah
+
+        dd($user->wasChanged(['nama','username']));
+    }
 }

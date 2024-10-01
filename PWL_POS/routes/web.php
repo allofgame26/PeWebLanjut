@@ -41,3 +41,6 @@ Route::get('/userwherefindorfail',[usercontroller::class, 'wherefindorfail']);
 Route::get('/userwherecount',[usercontroller::class, 'wherecount']);
 Route::get('/userfirstorcreate',[usercontroller::class, 'firstorcreate']);
 Route::get('/userfirstornew',[usercontroller::class, 'firstornew']);
+Route::get('/userdirtyclean',[usercontroller::class, 'dirtyclean']);
+Route::get('/userwaschange',[usercontroller::class, 'waschange']);
+
