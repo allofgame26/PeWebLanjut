@@ -32,7 +32,7 @@ Route::get('/kategoriview', [kategoricontroller::class, 'view']);
 Route::get('/userindex',[usercontroller::class, 'index']);
 Route::get('/userupdate',[usercontroller::class, 'update']);
 Route::get('/userfind',[usercontroller::class, 'find']);
-Route::get('/userviewall',[usercontroller::class, 'viewall']);
+Route::get('/userviewall',[usercontroller::class, 'viewall'])->name('user');
 Route::get('/userwhere',[usercontroller::class, 'where']);
 Route::get('/userfirst',[usercontroller::class, 'firstwhere']);
 Route::get('/userfindor',[usercontroller::class, 'findor']);
@@ -43,4 +43,10 @@ Route::get('/userfirstorcreate',[usercontroller::class, 'firstorcreate']);
 Route::get('/userfirstornew',[usercontroller::class, 'firstornew']);
 Route::get('/userdirtyclean',[usercontroller::class, 'dirtyclean']);
 Route::get('/userwaschange',[usercontroller::class, 'waschange']);
+Route::get('/user/tambah',[usercontroller::class, 'tambah'])->name('tambah');
+Route::post('/user/tambah_simpan',[usercontroller::class, 'tambah_simpan'])->name('tambah_simpan');
+Route::get('/user/ubah/{id}',[usercontroller::class, 'ubah'])->name('ubah');
+Route::put('/user/ubah_simpan/{id}',[usercontroller::class, 'ubah_simpan'])->name('ubah_simpan');
+Route::get('/user/hapus/{id}',[usercontroller::class, 'hapus'])->name('hapus');
+
 

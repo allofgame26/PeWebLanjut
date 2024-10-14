@@ -8,27 +8,31 @@
 </head>
 <body>
     <h1>Data User</h1>
+    <a href="{{ route('tambah') }}">+ Tambah User</a>
     <table border="1" cellpadding="2" cellspadding="0">
         <tr>
             <th>ID</th>
             <th>Username</th>
             <th>Nama</th>
             <th>ID level Pengguna</th>
+            <th>Action</th>
         </tr>
-        {{-- @foreach ($data as $d)
+        @foreach ($data as $d)
             <tr>
                 <td>{{ $d->user_id }}</td>
                 <td>{{ $d->username }}</td>
                 <td>{{ $d->nama }}</td>
                 <td>{{ $d->level_id }}</td>
+                <td><a href="{{ route('ubah', ['id' => $d->user_id]) }}">Ubah</a> | <a href="{{ route('hapus', ['id' => $d->user_id]) }}">Hapus</a></td>
             </tr>
-        @endforeach --}}
-        <tr>
+        @endforeach
+
+        {{-- <tr>
             <td>{{ $data->user_id }}</td>
             <td>{{ $data->username }}</td>
             <td>{{ $data->nama }}</td>
             <td>{{ $data->level_id }}</td>
-        </tr>
+        </tr> --}}
 
         {{-- untuk menentukan jumlah data  --}}
         {{-- <tr>
