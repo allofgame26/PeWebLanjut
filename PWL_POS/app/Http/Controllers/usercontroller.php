@@ -33,7 +33,7 @@ class usercontroller extends Controller
     }
 
     public function viewall(){
-        $user = usermodel::all();// ambil semua data dari tabel m_user
+        $user = usermodel::with('level')->get(); // ambil semua data dari tabel m_user
         return view('user',['data' => $user]);
     }
 
@@ -164,7 +164,7 @@ class usercontroller extends Controller
 
         $user->username = $request->username;
         $user->nama = $request->nama;
-        $user->password = $request->password;
+        $user->password = Hash::make($request->password);
         $user->level_id = $request->level_id;
 
         $user->save();
