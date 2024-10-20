@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\adminlteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\levelcontroller;
 use App\Http\Controllers\kategoricontroller;
 use App\Http\Controllers\usercontroller;
+use App\Http\Controllers\WelcomeController;
 use App\Models\usermodel;
 
 /*
@@ -16,11 +18,6 @@ use App\Models\usermodel;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/levelcreate', [levelcontroller::class, 'create']);
 Route::get('/levelupdate',[levelcontroller::class, 'update']);
 Route::get('/leveldelete',[levelcontroller::class, 'delete']);
@@ -48,5 +45,6 @@ Route::post('/user/tambah_simpan',[usercontroller::class, 'tambah_simpan'])->nam
 Route::get('/user/ubah/{id}',[usercontroller::class, 'ubah'])->name('ubah');
 Route::put('/user/ubah_simpan/{id}',[usercontroller::class, 'ubah_simpan'])->name('ubah_simpan');
 Route::get('/user/hapus/{id}',[usercontroller::class, 'hapus'])->name('hapus');
+Route::get('/',[WelcomeController::class, 'index']);
 
 
