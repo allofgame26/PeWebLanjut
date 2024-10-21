@@ -5,7 +5,7 @@
       <div class="card-header"> 
         <h3 class="card-title">{{ $page->title }}</h3> 
         <div class="card-tools"> 
-          <a class="btn btn-sm btn-primary mt-1" href="{{ url('supplier/create') }}">Tambah</a> 
+          <a class="btn btn-sm btn-primary mt-1" href="{{ url('barang/create') }}">Tambah</a> 
         </div> 
       </div> 
       <div class="card-body"> 
@@ -15,14 +15,16 @@
         @if (@session('error'))
         <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
-        <table class="table table-bordered table-striped table-hover table-sm" id="table_supplier"> 
+        <table class="table table-bordered table-striped table-hover table-sm" id="table_barang"> 
           <thead> 
             <tr>
                 <th>No</th>
-                <th>ID Suppluer</th>
-                <th>Kode Supplier</th>
-                <th>Nama Supplier</th>
-                <th>Alamat Suppler</th>
+                <th>ID Barang</th>
+                <th>Kategori Kode</th>
+                <th>Barang Kode</th>
+                <th>Barang Nama</th>
+                <th>Harga Beli</th>
+                <th>Harga Jual</th>
                 <th>Aksi</th>
             </tr> 
           </thead> 
@@ -36,11 +38,11 @@
 @push('js') 
   <script> 
     $(document).ready(function() { 
-      var dataUser = $('#table_supplier').DataTable({ 
+      var dataUser = $('#table_barang').DataTable({ 
           // serverSide: true, jika ingin menggunakan server side processing 
           serverSide: true,      
           ajax: { 
-              "url": "{{ url('supplier/list') }}", 
+              "url": "{{ url('barang/list') }}", 
               "dataType": "json", 
               "type": "POST" 
           }, 
@@ -52,27 +54,38 @@
               orderable: false, 
               searchable: false     
             },{ 
-              data: "supplier_id",                
+              data: "barang_id",                
               className: "", 
               // orderable: true, jika ingin kolom ini bisa diurutkan  
               orderable: true,     
               // searchable: true, jika ingin kolom ini bisa dicari 
               searchable: true     
             },{ 
-              data: "supplier_kode",                
+              data: "kategori.kategori_nama",                
               className: "", 
               orderable: true,     
               searchable: true     
             },{ 
-              // mengambil data supplier hasil dari ORM berelasi 
-              data: "supplier_nama",                
+              // mengambil data level hasil dari ORM berelasi 
+              data: "barang_kode",                
+              className: "", 
+              orderable: true,     
+              searchable: true     
+            },{ 
+              // mengambil data level hasil dari ORM berelasi 
+              data: "barang_nama",                
+              className: "", 
+              orderable: true,     
+              searchable: true     
+            },{ 
+              // mengambil data level hasil dari ORM berelasi 
+              data: "harga_beli",                
               className: "", 
               orderable: false,     
               searchable: false     
-            },
-            { 
-              // mengambil data supplier hasil dari ORM berelasi 
-              data: "supplier_alamat",                
+            },{ 
+              // mengambil data level hasil dari ORM berelasi 
+              data: "harga_jual",                
               className: "", 
               orderable: false,     
               searchable: false     
