@@ -45,6 +45,33 @@ Route::post('/user/tambah_simpan',[usercontroller::class, 'tambah_simpan'])->nam
 Route::get('/user/ubah/{id}',[usercontroller::class, 'ubah'])->name('ubah');
 Route::put('/user/ubah_simpan/{id}',[usercontroller::class, 'ubah_simpan'])->name('ubah_simpan');
 Route::get('/user/hapus/{id}',[usercontroller::class, 'hapus'])->name('hapus');
+
+// AdminLTE
 Route::get('/',[WelcomeController::class, 'index']);
+
+// User Routing
+Route::group(['prefix' => 'user'], function() {
+    Route::get('/',[usercontroller::class, 'index']); // Menampilkan halaman awal user
+    Route::post('/list',[usercontroller::class, 'list']); // menampilkan data user dalambentuk json untuk datatables 
+    Route::get('/create',[usercontroller::class, 'create']); // menampilkan halaman form tambah user
+    Route::post('/store',[usercontroller::class, 'store']); // Menyimpan data user baru
+    Route::get('/{id}',[usercontroller::class, 'show']); //menampilkan detail user
+    Route::get('/{id}/edit',[usercontroller::class, 'edit']); //menampilakn halaman form edit user
+    Route::put('/{id}', [usercontroller::class, 'update']); // menyimpan perubahan data user
+    Route::delete('/{id}',[usercontroller::class, 'destroy']); // menghapus data user
+});
+
+//Level Routing
+Route::group(['prefix' => 'level'], function(){
+    Route::get('/',[levelcontroller::class, 'index']);
+    Route::post('/list',[levelcontroller::class, 'list']); // menampilkan data user dalambentuk json untuk datatables 
+    Route::get('/create',[levelcontroller::class, 'create']); // menampilkan halaman form tambah user
+    Route::post('/store',[levelcontroller::class, 'store']); // Menyimpan data user baru
+    Route::get('/{id}',[levelcontroller::class, 'show']); //menampilkan detail user
+    Route::get('/{id}/edit',[levelcontroller::class, 'edit']); //menampilakn halaman form edit user
+    Route::put('/{id}', [levelcontroller::class, 'update']); // menyimpan perubahan data user
+    Route::delete('/{id}',[levelcontroller::class, 'destroy']); // menghapus data user
+});
+    
 
 
