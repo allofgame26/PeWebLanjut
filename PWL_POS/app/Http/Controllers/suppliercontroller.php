@@ -8,6 +8,7 @@ use Dflydev\DotAccessData\Data;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\suppliermodel;
+use Illuminate\support\Facades\Validator;
 
 class suppliercontroller extends Controller
 {
@@ -31,11 +32,14 @@ class suppliercontroller extends Controller
             // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex) 
             ->addIndexColumn()  
             ->addColumn('aksi', function ($supplier) {  // menambahkan kolom aksi 
-                $btn  = '<a href="'.url('/supplier/' . $supplier->supplier_id).'" class="btn btn-info btn-sm">Detail</a> '; 
-                $btn .= '<a href="'.url('/supplier/' . $supplier->supplier_id . '/edit').'" class="btn btn-warning btn-sm">Edit</a> '; 
-                $btn .= '<form class="d-inline-block" method="POST" action="'. url('/supplier/'.$supplier->supplier_id).'">' 
-                        . csrf_field() . method_field('DELETE') .  
-                        '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakit menghapus data ini?\');">Hapus</button></form>';      
+                // $btn  = '<a href="'.url('/supplier/' . $supplier->supplier_id).'" class="btn btn-info btn-sm">Detail</a> '; 
+                // $btn .= '<a href="'.url('/supplier/' . $supplier->supplier_id . '/edit').'" class="btn btn-warning btn-sm">Edit</a> '; 
+                // $btn .= '<form class="d-inline-block" method="POST" action="'. url('/supplier/'.$supplier->supplier_id).'">' 
+                //         . csrf_field() . method_field('DELETE') .  
+                //         '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakit menghapus data ini?\');">Hapus</button></form>';
+                $btn  = '<button onclick="modalAction(\''.url('/supplier/'.$supplier->supplier_id.'/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> '; 
+                $btn .= '<button onclick="modalAction(\''.url('/supplier/'.$supplier->supplier_id.'/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> '; 
+                $btn .= '<button onclick="modalAction(\''.url('/supplier/'.$supplier->supplier_id.'/confirm_ajax').'\')"  class="btn btn-danger btn-sm">Hapus</button> ';
                 return $btn; 
             }) 
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html 
@@ -136,5 +140,103 @@ class suppliercontroller extends Controller
             // jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan
             return redirect('/supplier')->with('error','Data supplier gagal dihapus masuk terdapat tabel lain yang terkait dengan data ini');
         }
+    }
+    // Create Ajax
+    public function create_ajax(){
+        return view('supplier.create_ajax');
+       }
+
+       public function store_ajax(Request $request){
+          // pengecekan apakh request berupa ajax
+          if($request->ajax() || $request->wantsJson()){
+            $rules = [
+                'supplier_kode' => 'required|max:9|unique:m_supplier,supplier_kode',
+                'supplier_nama' => 'required|string|max : 50',
+                'supplier_alamat' => 'required|string|max:100',
+            ];
+
+            // use Illuminate\support\Facades\Validator
+            $validator = Validator::make($request->all(),$rules);
+
+            if($validator->fails()){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal',
+                    'masField' => $validator->errors()
+                ]);
+            }
+
+            suppliermodel::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => 'Data User berhasil disimpan'
+            ]);
+          }
+          redirect('/');
+       }
+      // Edit Ajax
+      public function edit_ajax(string $id){
+        $supplier = suppliermodel::find($id);
+
+        return view('supplier.edit_ajax',['supplier' => $supplier]);
+      } 
+      //Update Ajax
+      public function update_ajax(Request $request,string $id){
+         if($request->ajax() || $request->wantsJson()){
+              $rules = [
+                'supplier_kode' => 'required|max:9|unique:m_supplier,supplier_kode',
+                'supplier_nama' => 'required|string|max : 50',
+                'supplier_alamat' => 'required|string|max:100',
+              ];
+            
+              $validator = Validator::make($request->all(), $rules); 
+ 
+        if ($validator->fails()) { 
+            return response()->json([ 
+                'status'   => false,    // respon json, true: berhasil, false: gagal 
+                'message'  => 'Validasi gagal.', 
+                'msgField' => $validator->errors()  // menunjukkan field mana yang error 
+            ]); 
+        } 
+ 
+        $check = suppliermodel::find($id); 
+             
+            $check->update($request->all()); 
+            return response()->json([ 
+                'status'  => true, 
+                'message' => 'Data berhasil diupdate' 
+            ]); 
+        } else{ 
+            return response()->json([ 
+                'status'  => false, 
+                'message' => 'Data tidak ditemukan' 
+            ]); 
+        }  
+        return redirect('/');
+    }
+    // delete ajax
+    public function confirm_ajax(string $id){
+        $supplier = suppliermodel::find($id);
+
+        return view('supplier.delete_ajax',['supplier' => $supplier]);
+    }
+
+    public function delete_ajax(Request $request, $id){
+        if($request->ajax()|| $request->wantsJson()){
+            $supplier = suppliermodel::find($id);
+            if($supplier){
+                $supplier->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data Berhasil dihapus'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data tidak ditemukan'
+                ]);
+            }
+        }
+        return redirect('/');
     }
 }
