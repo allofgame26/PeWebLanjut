@@ -16,6 +16,17 @@
         @if (@session('error'))
         <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
+        {{-- View: Add this before the table --}}
+<div class="row mb-3">
+  <div class="col-md-4">
+      <select id="kategori_filter" class="form-control">
+          <option value="">Semua Kategori</option>
+          @foreach($kategoris as $kategori)
+              <option value="{{ $kategori->kategori_id }}">{{ $kategori->kategori_nama }}</option>
+          @endforeach
+      </select>
+  </div>
+</div>
         <table class="table table-bordered table-striped table-hover table-sm" id="table_barang"> 
           <thead> 
             <tr>
@@ -38,24 +49,26 @@
 @push('css') 
 @endpush 
 @push('js') 
-  <script> 
+<script> 
   function modalAction(url =''){
     $('#myModal').load(url,function(){
       $('#myModal').modal('show');
     });
   }
-    $(document).ready(function() { 
+  
+  $(document).ready(function() { 
       var dataUser = $('#table_barang').DataTable({ 
-          // serverSide: true, jika ingin menggunakan server side processing 
           serverSide: true,      
           ajax: { 
               "url": "{{ url('barang/list') }}", 
               "dataType": "json", 
-              "type": "POST" 
+              "type": "POST",
+              "data": function(d) {
+                  d.kategori_id = $('#kategori_filter').val();
+              }
           }, 
           columns: [ 
             { 
-             // nomor urut dari laravel datatable addIndexColumn() 
               data: "DT_RowIndex",             
               className: "text-center", 
               orderable: false, 
@@ -63,9 +76,7 @@
             },{ 
               data: "barang_id",                
               className: "", 
-              // orderable: true, jika ingin kolom ini bisa diurutkan  
               orderable: true,     
-              // searchable: true, jika ingin kolom ini bisa dicari 
               searchable: true     
             },{ 
               data: "kategori.kategori_nama",                
@@ -73,25 +84,21 @@
               orderable: true,     
               searchable: true     
             },{ 
-              // mengambil data level hasil dari ORM berelasi 
               data: "barang_kode",                
               className: "", 
               orderable: true,     
               searchable: true     
             },{ 
-              // mengambil data level hasil dari ORM berelasi 
               data: "barang_nama",                
               className: "", 
               orderable: true,     
               searchable: true     
             },{ 
-              // mengambil data level hasil dari ORM berelasi 
               data: "harga_beli",                
               className: "", 
               orderable: false,     
               searchable: false     
             },{ 
-              // mengambil data level hasil dari ORM berelasi 
               data: "harga_jual",                
               className: "", 
               orderable: false,     
@@ -104,6 +111,11 @@
             } 
           ] 
       }); 
-    }); 
-  </script> 
+  
+      // Add event listener for category filter change
+      $('#kategori_filter').on('change', function() {
+          dataUser.ajax.reload(); // Reload the DataTable when filter changes
+      });
+  }); 
+  </script>
 @endpush 

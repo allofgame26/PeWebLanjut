@@ -22,12 +22,18 @@ class barangcontroller extends Controller
             'title' => 'Daftar Barang yang terdaftar dalam sistem'
         ];
         $activeMenu = 'barang'; //set menu yang sedang aktif
+
+        $kategoris = KategoriModel::all();
         
-        return view('barang.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('barang.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'kategoris' => $kategoris]);
     }
     public function list(Request $request){
         $barang = BarangModel::select('barang_id', 'barang_kode', 'barang_nama', 'harga_beli','harga_jual','kategori_id')->with('kategori'); 
     
+        // Apply category filter if selected
+    if ($request->filled('kategori_id')) {
+        $barang->where('kategori_id', $request->kategori_id);
+    }
  
         return DataTables::of($barang) 
             // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex) 

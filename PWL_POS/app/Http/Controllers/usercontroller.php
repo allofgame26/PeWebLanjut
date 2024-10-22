@@ -193,14 +193,21 @@ class usercontroller extends Controller
             'title' => 'Daftar user yang terdaftar dalam sistem'
         ];
         $activeMenu = 'user'; //set menu yang sedang aktif
+
+        // Get all levels for the filter
+    $levels = LevelModel::select('level_id', 'level_nama')->get();
         
-        return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu,'levels' => $levels]);
     }
     // Ambil data user dalam bentuk json untuk datatables 
     public function list(Request $request) 
     { 
     $users = UserModel::select('user_id', 'username', 'nama', 'level_id') ->with('level'); 
     
+    // Apply level filter if selected
+    if ($request->has('level_id') && $request->level_id != '') {
+        $users->where('level_id', $request->level_id);
+    }
  
     return DataTables::of($users) 
         // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex) 

@@ -90,6 +90,23 @@ Route::middleware(['authorize:ADM'])->group(function(){
     Route::delete('/level/{id}',[levelcontroller::class, 'destroy']); // menghapus data user
 });
 
+Route::middleware(['authorize:ADM,MNG'])->group(function(){
+    Route::get('/barang',[barangcontroller::class, 'index']);
+    Route::post('/barang/list',[barangcontroller::class, 'list']); // menampilkan data user dalambentuk json untuk datatables 
+    Route::get('/barang/create_ajax',[barangcontroller::class,'create_ajax']); // menampilkan halaman form tambah user dengan ajax
+    Route::post('/barang/ajax',[barangcontroller::class,'store_ajax']); // menyimpan data user baru ajax
+    Route::get('/barang/{id}/edit_ajax', [barangcontroller::class, 'edit_ajax']); // menyimpan perubahan data user
+    Route::put('/barang/{id}/update_ajax', [barangcontroller::class, 'update_ajax']); // menyimpan perubahan data user
+    Route::get('/barang/{id}/confirm_ajax', [barangcontroller::class, 'confirm_ajax']); // memberikan confirm hapus
+    Route::delete('/barang/{id}/delete_ajax', [barangcontroller::class, 'delete_ajax']); //menghapus data
+    Route::get('/barang/create',[barangcontroller::class, 'create']); // menampilkan halaman form tambah user
+    Route::post('/barang/store',[barangcontroller::class, 'store']); // Menyimpan data user baru
+    Route::get('/barang/{id}',[barangcontroller::class, 'show']); //menampilkan detail user
+    Route::get('/barang/{id}/edit',[barangcontroller::class, 'edit']); //menampilakn halaman form edit user
+    Route::put('/barang/{id}', [barangcontroller::class, 'update']); // menyimpan perubahan data user
+    Route::delete('/barang/{id}',[barangcontroller::class, 'destroy']); // menghapus data user
+});
+
 // Route::group(['prefix' => 'level'], function(){
 //     Route::get('/',[levelcontroller::class, 'index']);
 //     Route::post('/list',[levelcontroller::class, 'list']); // menampilkan data user dalambentuk json untuk datatables 
@@ -141,28 +158,28 @@ Route::group(['prefix' => 'supplier'], function(){
     Route::delete('/{id}',[suppliercontroller::class, 'destroy']); // menghapus data user
 });
 // Barang Routing
-Route::group(['prefix' => 'barang'], function(){
-    Route::get('/',[barangcontroller::class, 'index']);
-    Route::post('/list',[barangcontroller::class, 'list']); // menampilkan data user dalambentuk json untuk datatables 
-    Route::get('/create_ajax',[barangcontroller::class,'create_ajax']); // menampilkan halaman form tambah user dengan ajax
-    Route::post('/ajax',[barangcontroller::class,'store_ajax']); // menyimpan data user baru ajax
-    Route::get('/{id}/edit_ajax', [barangcontroller::class, 'edit_ajax']); // menyimpan perubahan data user
-    Route::put('/{id}/update_ajax', [barangcontroller::class, 'update_ajax']); // menyimpan perubahan data user
-    Route::get('/{id}/confirm_ajax', [barangcontroller::class, 'confirm_ajax']); // memberikan confirm hapus
-    Route::delete('/{id}/delete_ajax', [barangcontroller::class, 'delete_ajax']); //menghapus data
-    Route::get('/create',[barangcontroller::class, 'create']); // menampilkan halaman form tambah user
-    Route::post('/store',[barangcontroller::class, 'store']); // Menyimpan data user baru
-    Route::get('/{id}',[barangcontroller::class, 'show']); //menampilkan detail user
-    Route::get('/{id}/edit',[barangcontroller::class, 'edit']); //menampilakn halaman form edit user
-    Route::put('/{id}', [barangcontroller::class, 'update']); // menyimpan perubahan data user
-    Route::delete('/{id}',[barangcontroller::class, 'destroy']); // menghapus data user
-});
+// Route::group(['prefix' => 'barang'], function(){
+//     Route::get('/',[barangcontroller::class, 'index']);
+//     Route::post('/list',[barangcontroller::class, 'list']); // menampilkan data user dalambentuk json untuk datatables 
+//     Route::get('/create_ajax',[barangcontroller::class,'create_ajax']); // menampilkan halaman form tambah user dengan ajax
+//     Route::post('/ajax',[barangcontroller::class,'store_ajax']); // menyimpan data user baru ajax
+//     Route::get('/{id}/edit_ajax', [barangcontroller::class, 'edit_ajax']); // menyimpan perubahan data user
+//     Route::put('/{id}/update_ajax', [barangcontroller::class, 'update_ajax']); // menyimpan perubahan data user
+//     Route::get('/{id}/confirm_ajax', [barangcontroller::class, 'confirm_ajax']); // memberikan confirm hapus
+//     Route::delete('/{id}/delete_ajax', [barangcontroller::class, 'delete_ajax']); //menghapus data
+//     Route::get('/create',[barangcontroller::class, 'create']); // menampilkan halaman form tambah user
+//     Route::post('/store',[barangcontroller::class, 'store']); // Menyimpan data user baru
+//     Route::get('/{id}',[barangcontroller::class, 'show']); //menampilkan detail user
+//     Route::get('/{id}/edit',[barangcontroller::class, 'edit']); //menampilakn halaman form edit user
+//     Route::put('/{id}', [barangcontroller::class, 'update']); // menyimpan perubahan data user
+//     Route::delete('/{id}',[barangcontroller::class, 'destroy']); // menghapus data user
+// });
 
 // Auth Routing
 Route::pattern('id','[0-9]+'); // ketika ada parameter (id), maka harus berupa angka
 Route::get('/login',[authcontroller::class,'login'])->name('login');
 Route::post('/postlogin',[authcontroller::class,'postlogin']);
-Route::get('/logout',[authcontroller::class,'logout'])->middleware('auth');
+Route::post('/logout',[authcontroller::class,'logout'])->middleware('auth');
 Route::middleware(['auth'])->group(function(){
     // semua route didalam group ini harus lagin dlu
     // masukkan semua route yang perlu diauthentikasi disini
