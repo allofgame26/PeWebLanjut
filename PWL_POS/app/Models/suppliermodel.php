@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class suppliermodel extends Model
 {
@@ -14,4 +16,8 @@ class suppliermodel extends Model
 
     
     protected $fillable = ['supplier_kode','supplier_nama','supplier_alamat'];
+
+    public function stok(): HasMany { // One to Many Relationship
+        return $this->hasMany(stockmodel::class, 'stok_id', 'stok_id');        
+    }
 }
