@@ -108,3 +108,58 @@
 @stack('js') <!-- digunakan untuk memanggil custom cs dari perintah push('js') pada masing -masing view -->
 </body>
 </html>
+<style>
+  .content-wrapper {
+    background: #f5f6fa;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.card-header {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    padding: 1.25rem;
+}
+
+.btn {
+    border-radius: 6px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #3498db;
+    border-color: #3498db;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+    border-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+.table {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+</style>
