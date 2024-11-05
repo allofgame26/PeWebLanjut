@@ -112,6 +112,7 @@ Route::middleware(['authorize:ADM'])->group(function(){
     Route::put('/level/{id}/update_ajax', [levelcontroller::class, 'update_ajax']); // menyimpan perubahan data user
     Route::get('/level/{id}/confirm_ajax', [levelcontroller::class, 'confirm_ajax']); // memberikan confirm hapus
     Route::delete('/level/{id}/delete_ajax', [levelcontroller::class, 'delete_ajax']); //menghapus data
+    Route::get('level/{id}/show_ajax',[levelcontroller::class,'show_ajax']); // menyimpan data user baru ajax
     Route::post('/level/store',[levelcontroller::class, 'store']); // Menyimpan data user baru
     Route::get('/level/{id}',[levelcontroller::class, 'show']); //menampilkan detail user
     Route::get('/level/{id}/edit',[levelcontroller::class, 'edit']); //menampilakn halaman form edit user

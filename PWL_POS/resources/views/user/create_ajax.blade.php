@@ -71,9 +71,7 @@
                 $.ajax({
                     url: form.action,
                     type: form.method,
-                    data: formData,
-                            processData: false, // setting processData dan contentType ke false, untuk menghandle file 
-                            contentType: false,
+                    data: $(form).serialize(),
                     success: function(response) {
                         if (response.status) {
                             $('#myModal').modal('hide');

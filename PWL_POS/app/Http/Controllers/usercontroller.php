@@ -349,13 +349,12 @@ class usercontroller extends Controller
         return view('user.create_ajax')->with('level',$level);
        }
 
-       public function store_ajax(Request $request)
-    {
+       public function store_ajax(Request $request){
         // cek apakah request berupa ajax
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
                 'level_id'  => 'required|integer',
-                'username'  => 'required|string|min:3|unique:m_user,username',
+                'username'  => 'required|string|min:3',
                 'nama'      => 'required|string|max:100',
                 'password'  => 'required|min:6',
             ];

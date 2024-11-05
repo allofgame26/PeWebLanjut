@@ -15,7 +15,7 @@
             </div>
         </div>
     @else
-        <form action="{{ url('/user/' . $user->user_id . '/update_ajax') }}" method="POST" id="form-edit"
+        <form action="{{ url('/user/'.$user->user_id.'/update_ajax') }}" method="POST" id="form-edit"
             enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -57,15 +57,6 @@
                                 password</small>
                             <small id="error-password" class="error-text form-text text-danger"></small>
                         </div>
-                        <div class="form-group">
-                            <label>Foto</label>
-                            <input type="file" name="foto" id="foto" class="form-control"
-                                accept=".png,.jpg,.jpeg">
-                            <small class="form-text text-muted">Abaikan jika tidak ingin ubah
-                                foto</small>
-                            <small id="error-foto" class="error-text form-text text-danger"></small>
-                        </div>
-                    </div>
                     <div class="modal-footer">
                         <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
                         <button type="submit" class="btn btn-primary">Simpan</button>
@@ -116,7 +107,9 @@
                                         title: 'Berhasil',
                                         text: response.message
                                     });
-                                    tableUser.ajax.reload();
+                                    dataUser .ajax.reload(function(){
+                            console.log("Tabel telah diperbarui");
+                        }, false);
                                 } else {
                                     $('.error-text').text('');
                                     $.each(response.msgField, function(prefix, val) {

@@ -255,4 +255,19 @@ class levelcontroller extends Controller
         }
         return redirect('/');
     }
+    public function show_ajax($id){
+        $level = LevelModel::find($id);
+
+        // Periksa apakah user ditemukan
+        if ($level) {
+            // Tampilkan halaman show_ajax dengan data user
+            return view('user.show_ajax', ['level' => $level]);
+        } else {
+            // Tampilkan pesan kesalahan jika user tidak ditemukan
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
+    }
 }
