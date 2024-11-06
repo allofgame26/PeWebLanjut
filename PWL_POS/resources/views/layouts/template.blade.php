@@ -84,9 +84,9 @@
 <script src="{{ asset('adminlte/dist/js/demo.js')}}"></script>
 <!-- Datatables & Plugins -->
 <script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-bs4/js4/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{ asset('adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-responsive/js.responsive.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{ asset('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
 <script src="{{ asset('adminlte/plugins/jszip/jszip.min.js')}}"></script>
@@ -99,7 +99,7 @@
 <script src="{{ asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 <!-- jquery-validation -->
 <script src="{{ asset('adminlte/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/jquery-validation/additional-method.min.js')}}"></script>
+<script src="{{ asset('adminlte/plugins/jquery-validation/additional-methods.min.js')}}"></script>
 
 <script>
   //untuk mengirimkan token laravel CSRF pada setiap request ajax

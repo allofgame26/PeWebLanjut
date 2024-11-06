@@ -349,38 +349,55 @@ class usercontroller extends Controller
         return view('user.create_ajax')->with('level',$level);
        }
 
-       public function store_ajax(Request $request){
-        // cek apakah request berupa ajax
-        if ($request->ajax() || $request->wantsJson()) {
+       public function store_ajax(Request $request)
+{
+    try {
+        if ($request->ajax()) {
             $rules = [
                 'level_id'  => 'required|integer',
-                'username'  => 'required|string|min:3',
-                'nama'      => 'required|string|max:100',
-                'password'  => 'required|min:6',
+                'username'  => 'required|string|min:3|max:20',
+                'nama'      => 'required|string|min:3|max:100',
+                'password'  => 'required|min:6|max:20',
             ];
-            // use Illuminate\Support\Facades\Validator;
+
             $validator = Validator::make($request->all(), $rules);
 
             if ($validator->fails()) {
                 return response()->json([
-                    'status'    => false, // response status, false: error/gagal, true: berhasil
+                    'status'    => false,
                     'message'   => 'Validasi Gagal',
-                    'msgField'  => $validator->errors(), // pesan error validasi
-                ]);
+                    'msgField'  => $validator->errors()
+                ], 422);
             }
-            UserModel::create([
+
+            $user = usermodel::create([
                 'username'  => $request->username,
                 'nama'      => $request->nama,
                 'password'  => bcrypt($request->password),
                 'level_id'  => $request->level_id
             ]);
+
+            if ($user) {
+                return response()->json([
+                    'status'    => true,
+                    'message'   => 'Data user berhasil disimpan'
+                ], 200);
+            }
+
             return response()->json([
-                'status'    => true,
-                'message'   => 'Data user berhasil disimpan'
-            ]);
+                'status'    => false,
+                'message'   => 'Gagal menyimpan data'
+            ], 500);
         }
-        redirect('/');
+        
+        return redirect('/')->with('error', 'Invalid Request');
+    } catch (\Exception $e) {
+        return response()->json([
+            'status'    => false,
+            'message'   => 'Error: ' . $e->getMessage()
+        ], 500);
     }
+}
       // Edit Ajax
       public function edit_ajax(string $id){
         $user = usermodel::find($id);
@@ -397,8 +414,7 @@ class usercontroller extends Controller
                 'level_id' => 'required|integer',
                 'username' => 'required|max:20|unique:m_user,username,' . $id . ',user_id',
                 'nama' => 'required|max:100',
-                'password' => 'nullable|min:6|max:20',
-                'foto'      => 'nullable|mimes:jpeg,png,jpg|max:4096'
+                'password' => 'nullable|min:6|max:20'
             ];
             // use Illuminate\Support\Facades\Validator;
             $validator = Validator::make($request->all(), $rules);
@@ -409,41 +425,16 @@ class usercontroller extends Controller
                     'msgField' => $validator->errors() // menunjukkan field mana yang error
                 ]);
             }
-            $check = UserModel::find($id);
+            $check = usermodel::find($id);
             if ($check) {
                 if (!$request->filled('password')) { // jika password tidak diisi, maka hapus dari request
                     $request->request->remove('password');
                 }
-                if (isset($check->foto)) {
-                    $fileold = $check->foto;
-                    if (Storage::disk('public')->exists($fileold)) {
-                        Storage::disk('public')->delete($fileold);
-                    }
-                    $file = $request->file('foto');
-                    $filename = $check->foto;
-                    $path = 'image/profile/';
-                    $file->move($path, $filename);
-                    $pathname = $filename;
-                } else {
-                        $file = $request->file('foto');
-                        $extension = $file->getClientOriginalExtension();
-
-                        $filename = time() . '.' . $extension;
-
-                        $path = 'image/profile/';
-                        $file->move($path, $filename);
-                        $pathname = $path . $filename;
-                    }
-                if (!$request->filled('foto')) { // jika password tidak diisi, maka hapus dari request 
-                    $request->request->remove('foto');
-                }
-
                 $check->update([
                     'username'  => $request->username,
                     'nama'      => $request->nama,
                     'password'  => $request->password ? bcrypt($request->password) : UserModel::find($id)->password,
                     'level_id'  => $request->level_id,
-                    'foto'      => $pathname
                 ]);
                 return response()->json([
                     'status' => true,

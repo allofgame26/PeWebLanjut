@@ -1,11 +1,10 @@
-<form action="{{ url('/user/ajax') }}" method="POST" id="form-tambah" enctype="multipart/form-data">
+<form action="{{ url('/user/ajax') }}" method="POST" id="form-tambah">
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Tambah Data User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -41,8 +40,15 @@
         </div>
     </div>
 </form>
+
 <script>
     $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         $("#form-tambah").validate({
             rules: {
                 level_id: {
@@ -66,32 +72,52 @@
                 }
             },
             submitHandler: function(form) {
-                var formData = new FormData(
-                form);
                 $.ajax({
-                    url: form.action,
-                    type: form.method,
+                    url: $(form).attr('action'),
+                    type: 'POST',
                     data: $(form).serialize(),
+                    dataType: 'json',
+                    beforeSend: function() {
+                        // Disable submit button
+                        $('button[type="submit"]').prop('disabled', true);
+                    },
                     success: function(response) {
                         if (response.status) {
                             $('#myModal').modal('hide');
+                            $(form)[0].reset();
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Berhasil',
                                 text: response.message
                             });
-                            tableUser.ajax.reload();
+                            if (typeof tableUser !== 'undefined') {
+                                tableUser.ajax.reload();
+                            }
                         } else {
                             $('.error-text').text('');
-                            $.each(response.msgField, function(prefix, val) {
-                                $('#error-' + prefix).text(val[0]);
-                            });
+                            if (response.msgField) {
+                                $.each(response.msgField, function(prefix, val) {
+                                    $('#error-' + prefix).text(val[0]);
+                                });
+                            }
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Terjadi Kesalahan',
                                 text: response.message
                             });
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', xhr.responseJSON);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Terjadi Kesalahan',
+                            text: xhr.responseJSON?.message || 'Gagal menyimpan data. Silakan coba lagi.'
+                        });
+                    },
+                    complete: function() {
+                        // Enable submit button
+                        $('button[type="submit"]').prop('disabled', false);
                     }
                 });
                 return false;

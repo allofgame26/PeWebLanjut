@@ -129,6 +129,8 @@ Route::middleware(['authorize:ADM,MNG'])->group(function(){
     Route::put('/barang/{id}/update_ajax', [barangcontroller::class, 'update_ajax']); // menyimpan perubahan data user
     Route::get('/barang/{id}/confirm_ajax', [barangcontroller::class, 'confirm_ajax']); // memberikan confirm hapus
     Route::delete('/barang/{id}/delete_ajax', [barangcontroller::class, 'delete_ajax']); //menghapus data
+    Route::get('/barang/import', [barangcontroller::class, 'import']); //pindah view import
+    Route::POST('/barang/import_ajax', [barangcontroller::class, 'import_ajax']); //proses Input file
     Route::get('/barang/create',[barangcontroller::class, 'create']); // menampilkan halaman form tambah user
     Route::post('/barang/store',[barangcontroller::class, 'store']); // Menyimpan data user baru
     Route::get('/barang/{id}',[barangcontroller::class, 'show']); //menampilkan detail user

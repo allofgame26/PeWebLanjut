@@ -86,9 +86,6 @@
                             minlength: 6,
                             maxlength: 20
                         },
-                        foto: {
-                            accept: "png,jpg,jpeg"
-                        },
                     },
                     submitHandler: function(form) {
                         var formData = new FormData(

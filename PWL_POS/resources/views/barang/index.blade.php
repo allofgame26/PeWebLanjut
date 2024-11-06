@@ -5,6 +5,7 @@
       <div class="card-header"> 
         <h3 class="card-title">{{ $page->title }}</h3> 
         <div class="card-tools"> 
+          <button onclick="modalAction('{{url('/barang/import')}}')" class="btn btn-info">Import Barang</button>
           <a class="btn btn-sm btn-primary mt-1" href="{{ url('barang/create') }}">Tambah</a> 
           <button onclick="modalAction('{{ url('barang/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
         </div> 
@@ -37,6 +38,7 @@
                 <th>Barang Nama</th>
                 <th>Harga Beli</th>
                 <th>Harga Jual</th>
+                <th>Kategori</th>
                 <th>Aksi</th>
             </tr> 
           </thead> 
@@ -103,6 +105,11 @@
               className: "", 
               orderable: false,     
               searchable: false     
+            },{
+              data: "kategori.kategori_nama",
+              className : "",
+              orderable: true,
+              searchable: false,
             },{ 
               data: "aksi",                
               className: "", 
