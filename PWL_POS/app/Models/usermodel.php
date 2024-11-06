@@ -6,12 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable; // implemntasi class Authenticatable
 
-class usermodel extends Authenticatable 
+class usermodel extends Authenticatable implements JWTSubject
 {
     public function level() :BelongsTo{
         return $this->belongsTo(LevelModel::class,'level_id','level_id'); //merujuk kepada induk tabel
+    }
+
+    public function getJWTIdentifier(){
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(){
+        return [];
     }
     
     use HasFactory;
