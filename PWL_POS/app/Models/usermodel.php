@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Foundation\Auth\User as Authenticatable; // implemntasi class Authenticatable
 
 class usermodel extends Authenticatable implements JWTSubject
@@ -29,12 +30,18 @@ class usermodel extends Authenticatable implements JWTSubject
     protected $primaryKey = 'user_id'; //mendefinisikan primary key dari tabel yang digunakan
 
     
-    protected $fillable = ['level_id','username','nama','password']; //full attribute
+    protected $fillable = ['level_id','username','nama','password','avatar','image']; //full attribute
     // protected $fillable = ['level_id','username','nama']; // terjadi error karena terdapat kolom yang tidak benar /  salah / belum terinisiasi kan (Dalam kasus ini adalah 'password')
 
     protected $hidden = ['password']; // jangan ditampilkan saat select
 
     protected $casts = ['password' => 'hashed']; // casting password agar otomatis di hash
+
+    protected function image():Attribute{
+        return Attribute::make(
+            get: fn ($image) =>url('/storage/posts/'. $image),
+        );
+    }
     
     //mendapatkan nama role
     public function getRoleName():string{

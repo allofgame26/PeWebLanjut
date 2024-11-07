@@ -13,6 +13,7 @@ use App\Http\Controllers\stokcontroller;
 use App\Http\Controllers\penjualancontroller;
 use App\Http\Controllers\detailcontroller;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\profilecontroller;
 use App\Http\Middleware\Authenticate;
 use App\Models\usermodel;
 
@@ -312,11 +313,9 @@ Route::middleware(['authorize:ADM,MNG,STF'])->group(function () {
     Route::delete('/detail/{id}', [DetailController::class, 'destroy']); // menghapus data stok
 });
 Route::middleware(['authorize:ADM,MNG,STF,CUS'])->group(function(){
-    Route::get('/profile', [ProfilController::class, 'index']);
-    Route::get('/profile/{id}/edit_ajax', [ProfilController::class, 'edit_ajax']);
-    Route::put('/profile/{id}/update_ajax', [ProfilController::class, 'update_ajax']);
-    Route::get('/profile/{id}/edit_foto', [ProfilController::class, 'edit_foto']);
-    Route::put('/profile/{id}/update_foto', [ProfilController::class, 'update_foto']);
+    Route::get('/profile', [profilecontroller::class, 'index']);
+    Route::post('/profile/update_profile', [profilecontroller::class, 'update_profile']);
+    Route::post('/profile/update_info', [profilecontroller::class, 'update_info']);
 });
 
     

@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_bidang_minat', function (Blueprint $table){
-            $table->id('id_bd');
-            $table->string('nama_bd',50);
-            $table->string('kode_bd',10);
-            $table->string('deskripsi_bd',255);
-            $table->timestamps();
+        Schema::table('m_user', function (Blueprint $table) {
+            $table->string('image');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_bidang_minat');
+        Schema::table('m_user', function (Blueprint $table) {
+            $table->dropColumn('image');
+        });
     }
 };
